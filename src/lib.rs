@@ -1,4 +1,5 @@
 mod complex;
+mod pfft;
 
 pub use crate::complex::Complex;
 
@@ -45,4 +46,8 @@ pub fn FFT(p: Vec<Complex>) -> Vec<Complex> {
     }
 
     return y;
+}
+
+pub fn PFFT(p: Vec<Complex>, max_threads: usize) -> Vec<Complex> {
+    crate::pfft::thread_PFFT(p, max_threads)
 }
