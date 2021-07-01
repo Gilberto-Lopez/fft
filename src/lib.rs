@@ -2,6 +2,8 @@ mod complex;
 
 pub use crate::complex::Complex;
 
+use std::f64::consts::PI;
+
 fn split(p: Vec<Complex>) -> (Vec<Complex>, Vec<Complex>) {
     let l = p.len();
     let m = l / 2;
@@ -21,20 +23,18 @@ fn split(p: Vec<Complex>) -> (Vec<Complex>, Vec<Complex>) {
 
 #[allow(non_snake_case)]
 pub fn FFT(p: Vec<Complex>) -> Vec<Complex> {
-    const PI: f64 = std::f64::consts::PI;
-
     let n = p.len();
     if n == 1 {
         return p;
     }
 
-    let half = n / 2;
-    let w = Complex::new((-PI / half as f64).cos(), (-PI / half as f64).sin());
-    let mut wj = Complex::from(1.);
-
     let (pe, po) = split(p);
     let ye = FFT(pe);
     let yo = FFT(po);
+
+    let half = n / 2;
+    let w = Complex::new((-PI / half as f64).cos(), (-PI / half as f64).sin());
+    let mut wj = Complex::from(1.);
 
     let mut y = vec![Complex::from(0.); n];
     for j in 0..half {
